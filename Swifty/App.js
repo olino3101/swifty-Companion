@@ -1,12 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { authenticate } from './auth';
+import styles from './Styles';
+import getToken from './GetToken';
+import { getUserData } from './GetUserData';
 
 export default function App() {
   const [view, setView] = useState('loginScreen');
   const [login, onChangeLogin] = React.useState('');
-  authenticate();
+  const [token, setToken] = useState(getToken());
+
+  
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -32,9 +37,15 @@ export default function App() {
               // onPress={() => setView('42InfoScreen')}
               onPress={async () => {
                 try {
-                  const token = await authenticate();
-                  console.log('Authenticated with token:', token);
-                  setView('42InfoScreen');
+                  token.then((t) => {
+                    console.log('Token from promise:', t);
+                    const userData = getUserData(t);
+                    console.log('User Data:', userData);
+                    setView('42InfoScreen');
+
+                  }).catch((error) => {
+                    console.error('Error fetching token:', error);
+                  });
                 } catch (error) {
                   console.error('Authentication error:', error);
                 
@@ -67,86 +78,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000', // black background
-  },
-  header: {
-    flex: 1,
-    backgroundColor: '#00babc',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomWidth: 2,
-    borderBottomColor: '#fff',
-  },
-  headerText: {
-    fontSize: 22,
-    color: '#fff',
-    fontWeight: '800',
-    letterSpacing: 1,
-  },
-  content: {
-    flex: 3,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginBox: {
-    width: '80%',
-    alignItems: 'center',
-  },
-  input: {
-    width: '100%',
-    height: 45,
-    borderWidth: 1,
-    borderColor: '#00babc',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    marginBottom: 16,
-    color: '#000',
-    backgroundColor: '#f9f9f9',
-  },
-  button: {
-    width: '100%',
-    height: 45,
-    backgroundColor: '#00babc',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  infoText: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#000',
-  },
-  footer: {
-    flex: 1,
-    backgroundColor: '#00babc',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopWidth: 2,
-    borderTopColor: '#fff',
-  },
-  footerButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
-  footerButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-});
