@@ -8,15 +8,23 @@ import Login from './components/login';
 import Header from './components/header';
 import UserDataView from './components/UserDataView';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import NetInfo from '@react-native-community/netinfo';
 
 
 export default function App() {
   const [view, setView] = useState('loginScreen');
   const [token, setToken] = useState();
   const [userData, setUserData] = useState();
+  const [isConnected, setIsConnected] = React.useState(true);
 
+  React.useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  if (!token) {
+  if (!token && isConnected) {
     setToken(getToken());
   }
 
@@ -27,10 +35,9 @@ export default function App() {
       <StatusBar style="light"/>
       <Header userData={userData} />
       
-      {/* CONTENT */}
       <View style={styles.content}>
         {view === 'loginScreen' && (
-          <Login setView={setView} token={token} setUserData={setUserData} />
+          <Login setView={setView} token={token} setUserData={setUserData} isConnected={isConnected} />
         )}
         {view === '42InfoScreen' && (
           <UserDataView userData={userData} />

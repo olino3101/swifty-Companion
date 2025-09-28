@@ -5,9 +5,16 @@ import styles from '../../Styles';
 const UserDataView = ({ userData }) => {
     const projects = userData?.projects_users || [];
     const achievements = userData?.achievements || [];
-    const skills = userData?.cursus_users?.[userData.cursus_users.length - 1]?.skills || [];
-    
+    const skills = userData?.cursus_users?.[1]?.skills || [];
     const [data, setData] = useState();
+
+    if (!userData) {
+        return (
+            <View style={styles.content}>
+                <Text style={styles.infoText}>No user data available.</Text>
+            </View>
+        );
+    }
 
     return (
       <View style={{ flex: 1 }}> 
