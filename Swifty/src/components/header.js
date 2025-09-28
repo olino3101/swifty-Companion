@@ -9,12 +9,11 @@ const Header = ({ userData }) => {
   const correctionPoints = userData ? userData.correction_point : 0;
   const imageUrl = userData ? userData.image.versions.medium : '';
   const email = userData ? userData.email : 'N/A';
-  const phone = userData ? userData.phone : 'N/A';
-  const location = userData ? userData.location : 'N/A';
+  const location = userData ? userData.location : 'Absent';
   const displayName = userData ? userData.displayname : 'N/A';
-  const campus = userData && userData.campus && userData.campus.length > 0 ? userData.campus[0].name : 'N/A';
-  const cursus = userData && userData.cursus_users && userData.cursus_users.length > 0 ? userData.cursus_users[0].cursus.name : 'N/A';
-  const cursusLevel = userData && userData.cursus_users && userData.cursus_users.length > 0 ? userData.cursus_users[0].level : 'N/A';
+  const campus = userData && userData.campus && userData.campus.length > 0 ? userData.campus[userData.campus.length - 1].name : 'N/A';
+  const cursus = userData && userData.cursus_users && userData.cursus_users.length > 0 ? userData.cursus_users[userData.campus.length - 1].cursus.name : 'N/A';
+  const cursusLevel = userData && userData.cursus_users && userData.cursus_users.length > 0 ? userData.cursus_users[userData.campus.length - 1].level : 'N/A';
   return (
     <View style={styles.header}>
   {userData ? (
@@ -35,7 +34,6 @@ const Header = ({ userData }) => {
       <View style={styles.profileBox}>
         <Text style={styles.infoText}>Display Name: {displayName}</Text>
         <Text style={styles.infoText}>Email: {email}</Text>
-        <Text style={styles.infoText}>Phone: {phone}</Text>
         <Text style={styles.infoText}>Location: {location}</Text>
         <Text style={styles.infoText}>Campus: {campus}</Text>
         <Text style={styles.infoText}>
