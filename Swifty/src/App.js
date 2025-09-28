@@ -6,20 +6,26 @@ import getToken from './utils/GetToken';
 import Footer from './components/footer';
 import Login from './components/login';
 import Header from './components/header';
+import UserDataView from './components/UserDataView';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+
 
 export default function App() {
   const [view, setView] = useState('loginScreen');
   const [token, setToken] = useState();
   const [userData, setUserData] = useState();
 
+
   if (!token) {
     setToken(getToken());
   }
 
   return (
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
     <View style={styles.container}>
-      <StatusBar style="light" />
-      <Header />
+      <StatusBar style="light"/>
+      <Header userData={userData} />
       
       {/* CONTENT */}
       <View style={styles.content}>
@@ -27,12 +33,17 @@ export default function App() {
           <Login setView={setView} token={token} setUserData={setUserData} />
         )}
         {view === '42InfoScreen' && (
-          <Text style={styles.infoText}>42 Info Screen</Text>
+          <UserDataView userData={userData} />
         )}
       </View>
 
-      <Footer view={view} setView={setView}/>
+      <Footer view={view} setView={setView} setUserData={ setUserData} />
     </View>
+    </SafeAreaView>
+    </SafeAreaProvider>
+    
+
+
   );
 }
 

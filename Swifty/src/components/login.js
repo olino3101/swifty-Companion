@@ -20,7 +20,7 @@ const Login = ({ setView, token, setUserData }) => {
         onPress={() => {
           try {
                 token.then(async (t) => {
-                const userData = await getUserData(t);
+                const userData = await getUserData(t, login);
                 setUserData(userData);
                 console.log('User Data:', userData);
                 setView('42InfoScreen');

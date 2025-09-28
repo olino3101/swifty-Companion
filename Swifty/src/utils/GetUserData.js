@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export async function getUserData(token) {
+export async function getUserData(token, login) {
     try {
-      const response = await axios.get('https://api.intra.42.fr/v2/users/onault', {
+      const response = await axios.get(`https://api.intra.42.fr/v2/users/${login}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
