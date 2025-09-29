@@ -7,7 +7,8 @@ const UserDataView = ({ userData }) => {
     const achievements = userData?.achievements || [];
     const skills = userData?.cursus_users?.[1]?.skills || [];
     const [data, setData] = useState();
-
+    const totalSkills = skills.reduce((total, skill) => total + skill.level, 0);
+  
     if (!userData) {
         return (
             <View style={styles.content}>
@@ -48,7 +49,7 @@ const UserDataView = ({ userData }) => {
             (skills.length > 0
               ? skills.map((skill, index) => (
                   <Text key={index} style={styles.infoText}>
-                    {skill.name} ({skill.level.toFixed(2)})
+                    {skill.name} ({skill.level.toFixed(2)}) ({((skill.level / totalSkills) * 100).toFixed(2)}%)
                   </Text>
                 ))
               : <Text style={styles.infoText}>No skills available.</Text>)}
