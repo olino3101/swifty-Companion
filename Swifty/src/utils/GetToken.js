@@ -16,11 +16,12 @@ async function getToken() {
         Authorization: authHeader,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
+    }).catch((err) => {
+      throw err;
     });
-    console.log('Access token:', response.data.access_token);
     return response.data.access_token;
   } catch (err) {
-    console.error('Failed to get token', err.response?.data || err.message);
+    return null;
   }
 }
 

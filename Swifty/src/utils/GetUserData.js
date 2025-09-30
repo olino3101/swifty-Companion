@@ -6,10 +6,11 @@ export async function getUserData(token, login) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+      }).catch((error) => {
+        throw error;
       });
       return response.data;
     } catch (error) {
-      console.error('Failed to fetch user data:', error.response?.data || error.message);
       return null;
     }
   }

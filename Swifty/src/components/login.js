@@ -27,6 +27,9 @@ const Login = ({ setView, token, setUserData, isConnected }) => {
               if (!login) {
                 throw new Error('Login cannot be empty.');
               }
+            if (!token) {
+              throw new Error('Token is not available. Please try again later.');
+            }
               const t = await token;
               const userData = await getUserData(t, login);
             
