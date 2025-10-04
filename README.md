@@ -37,7 +37,18 @@ npm start
 
 ## Configuration
 
-Edit `src/utils/GetToken.js` with your 42 API credentials.
+1. Copy the environment template:
+```bash
+cp .env.example .env
+```
+
+2. Edit `.env` and add your 42 API credentials:
+```bash
+UID=your_42_api_uid_here
+SECRET=your_42_api_secret_here
+```
+
+Get your credentials from: https://profile.intra.42.fr/oauth/applications
 
 ## Tech Stack
 
